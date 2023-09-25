@@ -67,10 +67,10 @@ enum Role {
 }
 
 model Enrollment {
-    id        Int     @id @default(autoincrement())
-    user      User    @relation(fields: [userId], references: [id])
+    id        Int      @id @default(autoincrement())
+    user      User     @relation(fields: [userId], references: [id])
     userId    String
-    subject   Subject @relation(fields: [subjectId], references: [id])
+    subject   Language @relation(fields: [subjectId], references: [id])
     subjectId Int
 }
 
@@ -81,7 +81,7 @@ enum QuestionType {
     REORDER_WORDS
 }
 
-model Subject {
+model Language {
     id          Int          @id @default(autoincrement())
     name        String
     chapters    Chapter[]
@@ -90,18 +90,18 @@ model Subject {
 }
 
 model Word {
-    id        Int     @id @default(autoincrement())
-    subject   Subject @relation(fields: [subjectId], references: [id])
-    subjectId Int
-    audio     String
+    id         Int      @id @default(autoincrement())
+    language   Language @relation(fields: [languageId], references: [id])
+    languageId Int
+    audio      String
 }
 
 model Chapter {
-    id          Int     @id @default(autoincrement())
+    id          Int      @id @default(autoincrement())
     name        String
     description String
-    subject     Subject @relation(fields: [subjectId], references: [id])
-    subjectId   Int
+    language    Language @relation(fields: [languageId], references: [id])
+    languageId  Int
     quizzes     Quiz[]
 }
 
