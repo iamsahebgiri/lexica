@@ -54,7 +54,7 @@ const NavItem = ({ isActive, href, title, icon }: NavItemProps) => {
           isActive && "border-2 border-blue-500 bg-blue-100 hover:bg-blue-100",
         )}
       >
-        <Icon icon={icon} className="h-8 w-8" />
+        <Icon icon={icon} className="h-7 w-7" />
         <span
           className={cn(
             "hidden text-sm font-bold uppercase text-gray-600 sm:inline-block",
@@ -108,8 +108,8 @@ export default function MainLayout({ children, title }: MainLayoutProps) {
             </div>
           </div>
         </main>
-        <footer className="bg-background fixed bottom-0 flex h-14 w-full items-center p-2  sm:left-0 sm:h-screen sm:w-72 sm:items-start sm:border-r-2 sm:p-6">
-          <ul className="flex w-full justify-around gap-2 sm:flex-col sm:gap-3">
+        <footer className="bg-background fixed bottom-0 flex h-14 w-full items-center p-2 sm:left-0 sm:h-screen sm:w-72 sm:items-start sm:border-r-2 sm:p-4">
+          <ul className="flex w-full justify-around gap-2 sm:flex-col">
             <div className="sm: mb-6 ml-4 mt-3.5 hidden text-3xl font-extrabold uppercase tracking-wider text-emerald-600 sm:block">
               Lexica
             </div>
@@ -136,7 +136,6 @@ export default function MainLayout({ children, title }: MainLayoutProps) {
                   alt={sessionData?.user.image ?? undefined}
                   className="h-8 w-8 rounded-full"
                 />
-
                 <span
                   className={cn(
                     "hidden text-sm font-bold uppercase text-gray-600 sm:inline-block",

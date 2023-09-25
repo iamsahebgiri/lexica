@@ -16,11 +16,11 @@ function ProfilePage() {
   });
 
   if (isLoading) {
-    return <MainLayout title="Profile ">Loading single task...</MainLayout>;
+    return <MainLayout title="Profile">Loading...</MainLayout>;
   }
 
   if (error) {
-    return <MainLayout title="Profile ">{error.message}</MainLayout>;
+    return <MainLayout title="Profile">{error.message}</MainLayout>;
   }
 
   return (
