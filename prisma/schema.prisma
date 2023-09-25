@@ -7,15 +7,6 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@index([name])
-}
-
 // Next Auth
 model Account {
     id                String  @id @default(cuid())
@@ -44,13 +35,20 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String       @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?      @unique
     emailVerified DateTime?
     image         String?
+    bio           String       @default("a learner")
+    xp            Int          @default(0)
+    role          Role         @default(LEARNER)
+    responses     Response[]
+    enrollments   Enrollment[]
     accounts      Account[]
     sessions      Session[]
+    createdAt     DateTime     @default(now())
+    updatedAt     DateTime     @updatedAt
 }
 
 model VerificationToken {
@@ -59,4 +57,87 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+// Schema
+
+enum Role {
+    LEARNER
+    ADMIN
+}
+
+model Enrollment {
+    id        Int     @id @default(autoincrement())
+    user      User    @relation(fields: [userId], references: [id])
+    userId    String
+    subject   Subject @relation(fields: [subjectId], references: [id])
+    subjectId Int
+}
+
+enum QuestionType {
+    MULTIPLE_CHOICE
+    MATCH_THE_FOLLOWING
+    FILL_IN_THE_BLANK
+    REORDER_WORDS
+}
+
+model Subject {
+    id          Int          @id @default(autoincrement())
+    name        String
+    chapters    Chapter[]
+    enrollments Enrollment[]
+    words       Word[]
+}
+
+model Word {
+    id        Int     @id @default(autoincrement())
+    subject   Subject @relation(fields: [subjectId], references: [id])
+    subjectId Int
+    audio     String
+}
+
+model Chapter {
+    id          Int     @id @default(autoincrement())
+    name        String
+    description String
+    subject     Subject @relation(fields: [subjectId], references: [id])
+    subjectId   Int
+    quizzes     Quiz[]
+}
+
+model Quiz {
+    id        Int        @id @default(autoincrement())
+    name      String
+    chapter   Chapter    @relation(fields: [chapterId], references: [id])
+    chapterId Int
+    questions Question[]
+}
+
+model Question {
+    id         Int          @id @default(autoincrement())
+    text       String
+    type       QuestionType
+    difficulty Int
+    answer     Json
+    options    Option[]
+    quiz       Quiz         @relation(fields: [quizId], references: [id])
+    quizId     Int
+    response   Response[]
+}
+
+model Option {
+    id         Int      @id @default(autoincrement())
+    text       String
+    question   Question @relation(fields: [questionId], references: [id])
+    questionId Int
+}
+
+model Response {
+    id          Int      @id @default(autoincrement())
+    user        User     @relation(fields: [userId], references: [id])
+    userId      String
+    question    Question @relation(fields: [questionId], references: [id])
+    questionId  Int
+    submission  Json
+    submittedAt DateTime @default(now())
 }
