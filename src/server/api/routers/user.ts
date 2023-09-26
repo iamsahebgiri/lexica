@@ -20,8 +20,14 @@ export const userRouter = createTRPCRouter({
         },
       });
     }),
-  getLeaderboard: publicProcedure.query(async ({ ctx, input }) => {
-    return [];
+  getLeaderboard: publicProcedure.query(async ({ ctx }) => {
+    const users = await ctx.db.user.findMany({
+      take: 20,
+      orderBy: {
+        xp: "desc",
+      },
+    });
+    return users;
   }),
   resetLanguageProgress: protectedProcedure
     .input(

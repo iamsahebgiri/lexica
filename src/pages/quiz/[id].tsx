@@ -2,6 +2,7 @@ import Question from "@/components/question";
 import { Button } from "@/components/ui/button";
 import { useCurrentLanguageStore } from "@/store";
 import { api } from "@/utils/api";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
@@ -30,6 +31,7 @@ function QuizPage() {
   }
 
   const handleNextQuestion = (isCorrect: boolean) => {
+    alert(isCorrect)
     if (isCorrect) {
       setScore((prevScore) => {
         if (currentQuestionIndex !== undefined) {
@@ -56,12 +58,14 @@ function QuizPage() {
   };
 
   const currentQuestion = questions[currentQuestionIndex];
-  console.log(currentQuestion);
   return (
     <main className="flex h-screen w-screen flex-col overflow-hidden">
+      <Head>
+        <title>Quiz</title>
+      </Head>
       <header className="flex h-24 items-center">
-        <div className="mx-auto w-full max-w-4xl px-4">
-          <div className="h-3 w-full overflow-hidden rounded-full bg-gray-200">
+        <div className="mx-auto flex w-full max-w-4xl items-center gap-4 px-4">
+          <div className="h-3 flex-1 overflow-hidden rounded-full bg-gray-200">
             <div
               className="h-full rounded-full bg-emerald-500 p-1 transition-all"
               style={{
@@ -72,6 +76,9 @@ function QuizPage() {
             >
               <div className="h-[3px] rounded-full bg-emerald-200/30" />
             </div>
+          </div>
+          <div className="font-bold">
+            {currentQuestion?.difficulty} <span>XP</span>
           </div>
         </div>
       </header>
@@ -86,8 +93,8 @@ function QuizPage() {
         <div className="flex h-full flex-col items-center justify-center">
           <div className="text-center">
             <h2 className="text-3xl font-bold">{score}</h2>
-            <p>Score</p>
-            <p>End of the quiz!</p>
+            <h3 className="font-bold">Score</h3>
+            <p className="text-gray-500">End of the quiz!</p>
           </div>
           <div className="mt-10">
             <Button

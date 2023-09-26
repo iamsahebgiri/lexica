@@ -3,8 +3,8 @@
 
 ### TODO
 - [x] Select language
-- [ ] reset progress
-- [ ] leader board
+- [x] reset progress
+- [x] leader board
 - [ ] MCQ Get it to work
 - [ ] Letter TTS
 - [ ]

@@ -28,7 +28,7 @@ export const hindiChapters = [
             type: QuestionType.REORDER_WORDS,
             answer: ["We are standing on the road today"],
             difficulty: 2,
-            options: ["We", "are", "standing", "on", "the", "road"],
+            options: ["We", "are", "standing", "on", "the", "road", "today"],
           },
           {
             text: "पीटर पानी पर चल रहा है।",

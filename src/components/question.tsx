@@ -68,6 +68,7 @@ export default function Question({
 
   const handleOptionSelect = (option: string) => {
     setSelectedOption(option);
+    // console.log(option)
   };
 
   useEffect(() => {
@@ -81,8 +82,11 @@ export default function Question({
         words.join(" ").toLowerCase() === question.answer[0].toLowerCase(),
       );
       return words.join(" ").toLowerCase() === question.answer[0].toLowerCase();
+    } else if (question.type === "MULTIPLE_CHOICE") {
+      const correctOption = question.options[question.answer[0]];
+      return correctOption.id === selectedOption;
     }
-    return selectedOption === question.correctOption;
+    return false;
   };
 
   return (
@@ -97,7 +101,7 @@ export default function Question({
             transition={{ type: "spring", bounce: 0, duration: 0.4 }}
             className="absolute left-1/2 top-1/2 w-full max-w-xl -translate-x-1/2 -translate-y-1/2 space-y-8 px-6"
           >
-            {question.type === "REORDER_WORDS" ? (
+            {question.type === "REORDER_WORDS" && (
               <>
                 <h1 className="text-2xl font-bold text-gray-700">
                   Write this in english
@@ -109,23 +113,24 @@ export default function Question({
                 </div>
                 <WordReorder words={words} setWords={setWords} />
               </>
-            ) : (
+            )}
+            {question.type === "MULTIPLE_CHOICE" && (
               <>
                 <h1 className="text-2xl font-bold text-gray-700">
-                  {question.text}
+                  Select the meaning of the word
                 </h1>
 
                 <div className="flex">
                   <div className="mx-auto rounded-xl border-2 p-3 px-8">
-                    दादा उनसे धीरे चलते हैं ।
+                    {question.text}
                   </div>
                 </div>
                 <div className="mt-8 flex flex-col gap-4">
                   {question.options.map((option: any, index: number) => (
                     <Option
                       key={index}
-                      selected={option.text === selectedOption}
-                      onClick={() => handleOptionSelect(option)}
+                      selected={option.id === selectedOption}
+                      onClick={() => handleOptionSelect(option.id)}
                       className="font-normal lowercase"
                     >
                       {option.text}

@@ -36,6 +36,9 @@ export const learnRouter = createTRPCRouter({
         where: {
           languageId,
         },
+        // orderBy: {
+        //   id: "desc"
+        // }
       });
     }),
   getQuizzes: protectedProcedure
@@ -90,6 +93,24 @@ export const learnRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const { quizId, languageId, score } = input;
+      const doesQuizSolved = await ctx.db.response.count({
+        where: {
+          quizId,
+          userId: ctx.session.user.id,
+        },
+      });
+      if (doesQuizSolved === 0) {
+        await ctx.db.user.update({
+          where: {
+            id: ctx.session.user.id,
+          },
+          data: {
+            xp: {
+              increment: score,
+            },
+          },
+        });
+      }
       return ctx.db.response.create({
         data: {
           languageId,

@@ -7,14 +7,13 @@ import fireIcon from "@iconify/icons-fluent-emoji/fire";
 import japaneseReservedButton from "@iconify/icons-fluent-emoji/japanese-reserved-button";
 import orangeBook from "@iconify/icons-fluent-emoji/orange-book";
 import sportsMedal from "@iconify/icons-fluent-emoji/sports-medal";
-import flagForIndia from "@iconify/icons-emojione-v1/flag-for-india";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { cn } from "@/lib/utils";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
 import ChangeLanguage from "@/components/change-language";
+import { useCurrentLanguageStore } from "@/store";
 
 export interface MainLayoutProps {
   children: React.ReactNode;
@@ -43,10 +42,18 @@ interface NavItemProps {
   href: string;
   title: string;
   isActive: boolean;
+  isAvailable: boolean;
   icon: IconifyIcon;
 }
 
-const NavItem = ({ isActive, href, title, icon }: NavItemProps) => {
+const NavItem = ({
+  isActive,
+  isAvailable,
+  href,
+  title,
+  icon,
+}: NavItemProps) => {
+  if (!isAvailable) return null;
   return (
     <Link href={href} className="rounded-xl">
       <li
@@ -70,6 +77,7 @@ const NavItem = ({ isActive, href, title, icon }: NavItemProps) => {
 };
 
 export default function MainLayout({ children, title }: MainLayoutProps) {
+  const { language } = useCurrentLanguageStore();
   const router = useRouter();
   const { data: sessionData } = useSession();
   return (
@@ -81,7 +89,9 @@ export default function MainLayout({ children, title }: MainLayoutProps) {
       </Head>
 
       <div className="flex min-h-screen flex-col">
-        <header className="fixed top-0 h-14 w-full sm:hidden">Header</header>
+        <header className="fixed top-0 h-14 w-full sm:hidden">
+          {/* Mobile header */}
+        </header>
         <main className="my-14 min-h-screen sm:my-0 sm:ml-72">
           <div className="mx-auto max-w-5xl p-2 sm:p-8">
             <div className="flex flex-col gap-6 sm:flex-row">
@@ -91,14 +101,14 @@ export default function MainLayout({ children, title }: MainLayoutProps) {
                   <ChangeLanguage />
                   <div className="flex flex-col items-center rounded-2xl border-2 p-4 py-8 text-center">
                     <Icon icon={fireIcon} className="h-12 w-12" />
-                    <h3 className="font-bold">3 days</h3>
+                    <h3 className="font-bold">0 days</h3>
                     <p className="text-gray-500">Current streak</p>
                   </div>
-                  <div className="flex flex-col items-center rounded-2xl border-2 p-4 py-8 text-center">
+                  {/* <div className="flex flex-col items-center rounded-2xl border-2 p-4 py-8 text-center">
                     <Icon icon={sportsMedal} className="h-12 w-12" />
                     <h3 className="font-bold">5th</h3>
                     <p className="text-gray-500">Your rank</p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -113,6 +123,9 @@ export default function MainLayout({ children, title }: MainLayoutProps) {
               <NavItem
                 key={nav.href}
                 isActive={router.pathname === nav.href}
+                isAvailable={
+                  nav.href !== "/letters" ? true : language.name === "Hindi"
+                }
                 {...nav}
               />
             ))}
