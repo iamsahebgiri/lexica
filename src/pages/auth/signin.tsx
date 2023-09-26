@@ -15,11 +15,11 @@ export default function SignInPage() {
           <h1 className="text-2xl font-semibold tracking-tight">
             Login to Lexica
           </h1>
-          <p className="text-muted-foreground text-sm">
+          <p className="text-sm text-muted-foreground">
             We will create an account if doesn&apos;t exists.
           </p>
         </div>
-        <div className="space-y-4 flex flex-col">
+        <div className="flex flex-col space-y-4">
           <Button
             onClick={() =>
               signIn("github", {
@@ -40,18 +40,18 @@ export default function SignInPage() {
             Sign in with Google
           </Button>
         </div>
-        <p className="text-muted-foreground px-8 text-center text-sm">
+        <p className="px-8 text-center text-sm text-muted-foreground">
           By clicking continue, you agree to our{" "}
           <Link
             href="/terms"
-            className="hover:text-primary font-bold underline underline-offset-4"
+            className="font-bold underline underline-offset-4 hover:text-primary"
           >
             Terms of Service
           </Link>{" "}
           and{" "}
           <Link
             href="/privacy"
-            className="hover:text-primary font-bold underline underline-offset-4"
+            className="font-bold underline underline-offset-4 hover:text-primary"
           >
             Privacy Policy
           </Link>
