@@ -31,6 +31,8 @@ Discover Proven Strategies and Techniques to Master a New Language Quickly and E
 
 The efficient method of learning a language!
 
+![lexica](https://github.com/iamsahebgiri/lexica/assets/47132373/0e20d584-962a-42ad-b426-1fd1e009928b)
+
 ## ⚙️ Installation
 
 Make sure you have [Node.js](https://nodejs.org/en/download/) installed.
