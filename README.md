@@ -5,6 +5,5 @@
 - [x] Select language
 - [x] reset progress
 - [x] leader board
-- [ ] MCQ Get it to work
-- [ ] Letter TTS
-- [ ]
+- [x] MCQ Get it to work
+- [x] Letter TTS

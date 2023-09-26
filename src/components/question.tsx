@@ -7,7 +7,6 @@ import Option from "./option";
 import { shuffleWords } from "@/utils/strings";
 import useTextToSpeech from "@/hooks/use-tts";
 import { useRouter } from "next/router";
-import { useToast } from "@/components/ui/use-toast";
 // import WordReorder from "./word-reorder";
 
 interface QuestionProps {
@@ -68,7 +67,7 @@ export default function Question({
 }: QuestionProps) {
   const router = useRouter();
   const { speak } = useTextToSpeech();
-  const [words, setWords] = useState([]);
+  const [words, setWords] = useState<string[]>([]);
 
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
@@ -78,8 +77,9 @@ export default function Question({
   };
 
   useEffect(() => {
-    // shuffleWords(question.options.map((option: any) => option.text)),
-    setWords(question.options.map((option: any) => option.text));
+    const words = question.options.map((option: any) => option.text);
+    const shuffledWords = shuffleWords(words);
+    setWords(shuffledWords);
   }, [question]);
 
   const checkAnswer = () => {
