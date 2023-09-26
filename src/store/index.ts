@@ -14,7 +14,7 @@ export const useCurrentLanguageStore = create(
   persist<ILanguage>(
     (set, get) => ({
       language: {
-        id: 0,
+        id: 1,
         name: "Hindi",
       },
       set: (language) => set({ language }),

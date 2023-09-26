@@ -15,10 +15,12 @@ async function main() {
 
   const languages = [
     {
+      id: 1,
       lang: "Hindi",
       chapters: hindiChapters,
     },
     {
+      id: 2,
       lang: "French",
       chapters: frenchChapters,
     },
@@ -27,6 +29,7 @@ async function main() {
   languages.map(async (language) => {
     const lang = await prisma.language.create({
       data: {
+        id: language.id,
         name: language.lang,
       },
     });
