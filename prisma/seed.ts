@@ -1,52 +1,66 @@
 import { PrismaClient } from "@prisma/client";
-import { hindiChapters } from "./data";
+import { hindiChapters, frenchChapters } from "./data";
 
 const prisma = new PrismaClient();
 
 async function main() {
   await prisma.option.deleteMany();
   await prisma.question.deleteMany();
+  await prisma.response.deleteMany();
   await prisma.quiz.deleteMany();
   await prisma.chapter.deleteMany();
   await prisma.language.deleteMany();
 
   console.log("Deleted all data...");
 
-  const hindi = await prisma.language.create({
-    data: {
-      name: "Hindi",
+  const languages = [
+    {
+      lang: "Hindi",
+      chapters: hindiChapters,
     },
-  });
+    {
+      lang: "French",
+      chapters: frenchChapters,
+    },
+  ];
 
-  hindiChapters.map(async (chapter, index) => {
-    const ch = await prisma.chapter.create({
+  languages.map(async (language) => {
+    const lang = await prisma.language.create({
       data: {
-        name: `Unit ${index + 1}`,
-        description: chapter.name,
-        languageId: hindi.id,
+        name: language.lang,
       },
     });
-    const quizzes = chapter.quiz;
-    quizzes.map(async (q) => {
-      const questions = q.questions;
-      const quiz = await prisma.quiz.create({
+
+    language.chapters.map(async (chapter, index) => {
+      const ch = await prisma.chapter.create({
         data: {
-          name: q.name,
-          chapterId: ch.id,
+          name: `Unit ${index + 1}`,
+          description: chapter.name,
+          languageId: lang.id,
         },
       });
-      questions.map(async (question) => {
-        await prisma.question.create({
+      const quizzes = chapter.quiz;
+      quizzes.map(async (q) => {
+        const questions = q.questions;
+        const quiz = await prisma.quiz.create({
           data: {
-            answer: question.answer,
-            difficulty: question.difficulty,
-            text: question.text,
-            type: question.type,
-            quizId: quiz.id,
-            options: {
-              create: question.options.map((option) => ({ text: option })),
-            },
+            name: q.name,
+            chapterId: ch.id,
           },
+        });
+        questions.map(async (question) => {
+          await prisma.question.create({
+            data: {
+              answer: question.answer,
+              difficulty: question.difficulty,
+              text: question.text,
+              type: question.type,
+              quizId: quiz.id,
+              options: {
+                create: question.options.map((option) => ({ text: option })),
+              },
+            },
+          });
         });
       });
     });

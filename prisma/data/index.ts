@@ -250,3 +250,30 @@ export const hindiChapters = [
     ],
   },
 ];
+
+export const frenchChapters = [
+  {
+    name: "Form basic sentences",
+    quiz: [
+      {
+        name: "Quiz 2",
+        questions: [
+          {
+            text: "the horse",
+            type: QuestionType.MULTIPLE_CHOICE,
+            answer: [1],
+            difficulty: 1,
+            options: ["le chien", "le cheval", "le garçon"],
+          },
+          {
+            text: "le garçon",
+            type: QuestionType.REORDER_WORDS,
+            answer: ["a horse"],
+            difficulty: 1,
+            options: ["a", "horse"],
+          },
+        ],
+      },
+    ],
+  },
+];
