@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import MainLayout from "@/layouts/main.layout";
 import { cn } from "@/lib/utils";
+import { useCurrentLanguageStore } from "@/store";
 import { api } from "@/utils/api";
 import { getColor } from "@/utils/color";
 import { useRouter } from "next/router";
@@ -112,7 +113,14 @@ function Lesson({ chapterId, color }: { chapterId: number; color: string }) {
 }
 
 function LearnPage() {
-  const { data: chapters, isLoading, error } = api.learn.getChapters.useQuery();
+  const { language } = useCurrentLanguageStore();
+  const {
+    data: chapters,
+    isLoading,
+    error,
+  } = api.learn.getChapters.useQuery({
+    languageId: language.id,
+  });
 
   if (isLoading) {
     return <MainLayout title="Learn new language">Loading...</MainLayout>;
@@ -123,7 +131,7 @@ function LearnPage() {
   }
 
   return (
-    <MainLayout>
+    <MainLayout title={"Learn new language"}>
       <div className="space-y-12">
         {chapters.map((chapter) => (
           <Fragment key={chapter.id}>

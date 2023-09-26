@@ -20,9 +20,24 @@ export const learnRouter = createTRPCRouter({
         },
       });
     }),
-  getChapters: publicProcedure.query(async ({ ctx }) => {
-    return ctx.db.chapter.findMany();
+
+  getLanguages: publicProcedure.query(async ({ ctx }) => {
+    return ctx.db.language.findMany();
   }),
+  getChapters: publicProcedure
+    .input(
+      z.object({
+        languageId: z.number(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { languageId } = input;
+      return ctx.db.chapter.findMany({
+        where: {
+          languageId,
+        },
+      });
+    }),
   getQuizzes: protectedProcedure
     .input(
       z.object({

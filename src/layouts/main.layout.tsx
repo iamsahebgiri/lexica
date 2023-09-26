@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import { cn } from "@/lib/utils";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
+import ChangeLanguage from "@/components/change-language";
 
 export interface MainLayoutProps {
   children: React.ReactNode;
@@ -74,7 +75,7 @@ export default function MainLayout({ children, title }: MainLayoutProps) {
   return (
     <>
       <Head>
-        <title>{title}</title>
+        <title>{title ? title : "Lexica"}</title>
         <meta name="description" content="Learn new language at ease" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -87,12 +88,7 @@ export default function MainLayout({ children, title }: MainLayoutProps) {
               <div className="flex-1">{children}</div>
               <div className="hidden sm:block sm:w-72">
                 <div className="flex flex-col gap-4">
-                  <div className="flex flex-col items-center rounded-2xl border-2 p-4 py-7 text-center">
-                    <Icon icon={flagForIndia} className="h-12 w-12" />
-                    <h3 className="font-bold">Hindi</h3>
-                    <p className="mb-6 text-gray-500">Language</p>
-                    <Button>Change language</Button>
-                  </div>
+                  <ChangeLanguage />
                   <div className="flex flex-col items-center rounded-2xl border-2 p-4 py-8 text-center">
                     <Icon icon={fireIcon} className="h-12 w-12" />
                     <h3 className="font-bold">3 days</h3>
@@ -108,7 +104,7 @@ export default function MainLayout({ children, title }: MainLayoutProps) {
             </div>
           </div>
         </main>
-        <footer className="bg-background fixed bottom-0 flex h-14 w-full items-center p-2 sm:left-0 sm:h-screen sm:w-72 sm:items-start sm:border-r-2 sm:p-4">
+        <footer className="fixed bottom-0 flex h-14 w-full items-center bg-background p-2 sm:left-0 sm:h-screen sm:w-72 sm:items-start sm:border-r-2 sm:p-4">
           <ul className="flex w-full justify-around gap-2 sm:flex-col">
             <div className="sm: mb-6 ml-4 mt-3.5 hidden text-3xl font-extrabold uppercase tracking-wider text-emerald-600 sm:block">
               Lexica

@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 function QuizPage() {
-  const languageId = useCurrentLanguageStore((state) => state.language);
+  const { id: languageId } = useCurrentLanguageStore((state) => state.language);
   const router = useRouter();
   const id = router.query.id as string;
 

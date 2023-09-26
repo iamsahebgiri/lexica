@@ -2,9 +2,9 @@
 
 
 ### TODO
-- [ ] Select language
-- [ ] leader board
+- [x] Select language
 - [ ] reset progress
+- [ ] leader board
 - [ ] MCQ Get it to work
 - [ ] Letter TTS
 - [ ]

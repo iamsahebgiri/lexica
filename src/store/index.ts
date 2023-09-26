@@ -1,19 +1,23 @@
+import type { Language } from "@prisma/client";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type Language = {
-  language: number;
-  set: (value: number) => void;
-  get: (id: number) => number | undefined;
+type ILanguage = {
+  language: Language;
+  set: (value: Language) => void;
+  get: () => Language | undefined;
   //   edit: (id: number, value: number) => void;
   //   delete: (id: number) => void;
 };
 
 export const useCurrentLanguageStore = create(
-  persist<Language>(
+  persist<ILanguage>(
     (set, get) => ({
-      language: 6,
-      set: (language: number) => set({ language }),
+      language: {
+        id: 6,
+        name: "Hindi",
+      },
+      set: (language) => set({ language }),
       get: () => get().language,
     }),
     {
