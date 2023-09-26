@@ -5,6 +5,7 @@ import { api } from "@/utils/api";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 function QuizPage() {
   const { id: languageId } = useCurrentLanguageStore((state) => state.language);
@@ -31,8 +32,8 @@ function QuizPage() {
   }
 
   const handleNextQuestion = (isCorrect: boolean) => {
-    alert(isCorrect)
     if (isCorrect) {
+      toast.success("Yay! Correct");
       setScore((prevScore) => {
         if (currentQuestionIndex !== undefined) {
           const q = questions[currentQuestionIndex];
@@ -43,6 +44,8 @@ function QuizPage() {
         }
         return prevScore;
       });
+    } else {
+      toast.error("Oh no! incorrect");
     }
 
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
@@ -64,23 +67,25 @@ function QuizPage() {
         <title>Quiz</title>
       </Head>
       <header className="flex h-24 items-center">
-        <div className="mx-auto flex w-full max-w-4xl items-center gap-4 px-4">
-          <div className="h-3 flex-1 overflow-hidden rounded-full bg-gray-200">
-            <div
-              className="h-full rounded-full bg-emerald-500 p-1 transition-all"
-              style={{
-                width: `${Math.floor(
-                  (currentQuestionIndex / questions.length) * 100,
-                )}%`,
-              }}
-            >
-              <div className="h-[3px] rounded-full bg-emerald-200/30" />
+        {currentQuestionIndex < questions.length && (
+          <div className="mx-auto flex w-full max-w-4xl items-center gap-4 px-4">
+            <div className="h-3 flex-1 overflow-hidden rounded-full bg-gray-200">
+              <div
+                className="h-full rounded-full bg-emerald-500 p-1 transition-all"
+                style={{
+                  width: `${Math.floor(
+                    (currentQuestionIndex / questions.length) * 100,
+                  )}%`,
+                }}
+              >
+                <div className="h-[3px] rounded-full bg-emerald-200/30" />
+              </div>
+            </div>
+            <div className="font-bold">
+              {currentQuestion?.difficulty} <span>XP</span>
             </div>
           </div>
-          <div className="font-bold">
-            {currentQuestion?.difficulty} <span>XP</span>
-          </div>
-        </div>
+        )}
       </header>
 
       {currentQuestionIndex < questions.length ? (

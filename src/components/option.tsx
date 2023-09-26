@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils';
-import React from 'react';
+import { cn } from "@/lib/utils";
+import React from "react";
 
 export interface OptionProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -11,31 +11,31 @@ const Option = React.forwardRef<HTMLButtonElement, OptionProps>(
     return (
       <button
         className={cn(
-          'relative cursor-pointer outline-offset-4 transition-[filter] duration-[250ms] p-0 border-[none] group select-none',
-          className
+          "duration-[250ms] group relative cursor-pointer select-none border-[none] p-0 outline-offset-4 transition-[filter]",
+          className,
         )}
         ref={ref}
         {...props}
       >
         <span
           className={cn(
-            'absolute w-full h-full rounded-xl left-0 top-0 bg-gray-300',
-            selected && 'bg-blue-400'
+            "absolute left-0 top-0 h-full w-full rounded-xl bg-gray-300",
+            selected && "bg-blue-400",
           )}
         />
         <span
           className={cn(
-            'block relative border-2 border-gray-300 will-change-transform -translate-y-1 transition-transform duration-[600ms] ease-[cubic-bezier(.3,0.7,0.4,1)] group-hover:transition-transform group-hover:duration-[250ms] group-hover:ease-[cubic-bezier(.3,0.7,0.4,1.5)] group-active:-translate-y-0 group-active:transition-transform group-active:duration-[34ms] bg-white rounded-xl px-8 py-2',
-            selected && 'bg-blue-200 border-blue-400    '
+            "duration-[600ms] ease-[cubic-bezier(.3,0.7,0.4,1)] group-hover:duration-[250ms] group-hover:ease-[cubic-bezier(.3,0.7,0.4,1.5)] group-active:duration-[34ms] relative block -translate-y-1 rounded-xl border-2 border-gray-300 bg-white px-8 py-2 transition-transform will-change-transform group-hover:transition-transform group-active:-translate-y-0 group-active:transition-transform",
+            selected && "border-blue-400 bg-blue-200    ",
           )}
         >
           {children}
         </span>
       </button>
     );
-  }
+  },
 );
 
-Option.displayName = 'Option';
+Option.displayName = "Option";
 
 export default Option;

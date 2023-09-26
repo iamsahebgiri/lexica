@@ -5,6 +5,9 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import Option from "./option";
 import { shuffleWords } from "@/utils/strings";
+import useTextToSpeech from "@/hooks/use-tts";
+import { useRouter } from "next/router";
+import { useToast } from "@/components/ui/use-toast";
 // import WordReorder from "./word-reorder";
 
 interface QuestionProps {
@@ -38,8 +41,9 @@ const WordReorder = ({ words, setWords }: any) => {
       >
         {words.map((word: string, index: number) => (
           <Button
-            key={index}
             draggable
+            key={index}
+            // onClick={() => speak(word)}
             onDragStart={(e) => onDragStart(e, index)}
             onDrop={(e) => onDrop(e, index)}
             onDragOver={onDragOver}
@@ -62,6 +66,8 @@ export default function Question({
   handleNextQuestion,
   lastQuestion,
 }: QuestionProps) {
+  const router = useRouter();
+  const { speak } = useTextToSpeech();
   const [words, setWords] = useState([]);
 
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -107,11 +113,14 @@ export default function Question({
                   Write this in english
                 </h1>
                 <div className="flex">
-                  <div className="mx-auto rounded-xl border-2 p-3 px-8">
+                  <div
+                    className="mx-auto cursor-pointer select-none rounded-xl border-2 p-3 px-8 text-lg"
+                    onClick={() => speak(question.text)}
+                  >
                     {question.text}
                   </div>
                 </div>
-                <WordReorder words={words} setWords={setWords} />
+                <WordReorder speak={speak} words={words} setWords={setWords} />
               </>
             )}
             {question.type === "MULTIPLE_CHOICE" && (
@@ -121,7 +130,7 @@ export default function Question({
                 </h1>
 
                 <div className="flex">
-                  <div className="mx-auto rounded-xl border-2 p-3 px-8">
+                  <div className="mx-auto rounded-xl border-2 p-3 px-8 text-lg">
                     {question.text}
                   </div>
                 </div>
@@ -130,7 +139,10 @@ export default function Question({
                     <Option
                       key={index}
                       selected={option.id === selectedOption}
-                      onClick={() => handleOptionSelect(option.id)}
+                      onClick={() => {
+                        handleOptionSelect(option.id);
+                        speak(option.text);
+                      }}
                       className="font-normal lowercase"
                     >
                       {option.text}
@@ -144,13 +156,9 @@ export default function Question({
       </div>
       <footer className="py-4 sm:border-t-2 sm:py-8">
         <div className="mx-auto flex max-w-4xl flex-col-reverse justify-between gap-4 px-4 sm:flex-row sm:items-center">
-          {/* <Button
-            onClick={() => handleNextQuestion(checkAnswer())}
-            variant="outline"
-          >
-            Skip
-          </Button> */}
-          <div></div>
+          <Button onClick={() => router.push("/learn")} variant="destructive">
+            Quit
+          </Button>
           <Button onClick={() => handleNextQuestion(checkAnswer())}>
             {lastQuestion ? "Submit" : "Next"}
           </Button>

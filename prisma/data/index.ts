@@ -268,9 +268,9 @@ export const frenchChapters = [
           {
             text: "le garçon",
             type: QuestionType.REORDER_WORDS,
-            answer: ["a horse"],
+            answer: ["a boy"],
             difficulty: 1,
-            options: ["a", "horse"],
+            options: ["a", "boy"],
           },
         ],
       },

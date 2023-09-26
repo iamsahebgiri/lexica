@@ -7,6 +7,7 @@ import { api } from "@/utils/api";
 import "@/styles/globals.css";
 import { useEffect } from "react";
 import type { NextPage } from "next";
+import { Toaster } from "react-hot-toast";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -37,6 +38,7 @@ function MyApp({
         ) : (
           <Component {...pageProps} />
         )}
+        <Toaster position="bottom-center" />
       </SessionProvider>
     </>
   );
