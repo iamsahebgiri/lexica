@@ -10,6 +10,8 @@ async function main() {
   await prisma.chapter.deleteMany();
   await prisma.language.deleteMany();
 
+  console.log("Deleted all data...");
+
   const hindi = await prisma.language.create({
     data: {
       name: "Hindi",
@@ -24,25 +26,28 @@ async function main() {
         languageId: hindi.id,
       },
     });
-    const questions = chapter.questions;
-    const quiz = await prisma.quiz.create({
-      data: {
-        name: `Quiz ${index + 1}`,
-        chapterId: ch.id,
-      },
-    });
-    questions.map(async (q) => {
-      await prisma.question.create({
+    const quizzes = chapter.quiz;
+    quizzes.map(async (q) => {
+      const questions = q.questions;
+      const quiz = await prisma.quiz.create({
         data: {
-          answer: q.answer,
-          difficulty: q.difficulty,
-          text: q.text,
-          type: q.type,
-          quizId: quiz.id,
-          options: {
-            create: q.options.map((option) => ({ text: option })),
-          },
+          name: q.name,
+          chapterId: ch.id,
         },
+      });
+      questions.map(async (question) => {
+        await prisma.question.create({
+          data: {
+            answer: question.answer,
+            difficulty: question.difficulty,
+            text: question.text,
+            type: question.type,
+            quizId: quiz.id,
+            options: {
+              create: question.options.map((option) => ({ text: option })),
+            },
+          },
+        });
       });
     });
   });

@@ -87,6 +87,7 @@ model Language {
     chapters    Chapter[]
     enrollments Enrollment[]
     words       Word[]
+    responses   Response[]
 }
 
 model Word {
@@ -111,6 +112,7 @@ model Quiz {
     chapter   Chapter    @relation(fields: [chapterId], references: [id])
     chapterId Int
     questions Question[]
+    responses Response[]
 }
 
 model Question {
@@ -122,7 +124,6 @@ model Question {
     options    Option[]
     quiz       Quiz         @relation(fields: [quizId], references: [id])
     quizId     Int
-    response   Response[]
 }
 
 model Option {
@@ -136,8 +137,10 @@ model Response {
     id          Int      @id @default(autoincrement())
     user        User     @relation(fields: [userId], references: [id])
     userId      String
-    question    Question @relation(fields: [questionId], references: [id])
-    questionId  Int
-    submission  Json
+    score       Int
+    quiz        Quiz     @relation(fields: [quizId], references: [id])
+    quizId      Int
+    language    Language @relation(fields: [languageId], references: [id])
+    languageId  Int
     submittedAt DateTime @default(now())
 }
