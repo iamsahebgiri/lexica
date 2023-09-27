@@ -1,19 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import ChangeLanguage from "@/components/change-language";
+import { cn } from "@/lib/utils";
+import { useCurrentLanguageStore } from "@/store";
+import brokenHeart from "@iconify/icons-fluent-emoji/broken-heart";
+import fireIcon from "@iconify/icons-fluent-emoji/fire";
+import houseIcon from "@iconify/icons-fluent-emoji/house";
+import japaneseApplicationButton from "@iconify/icons-fluent-emoji/japanese-application-button";
+import sportsMedal from "@iconify/icons-fluent-emoji/sports-medal";
 import type { IconifyIcon } from "@iconify/react";
 import { Icon } from "@iconify/react";
-import icon1stPlaceMedal from "@iconify/icons-fluent-emoji/1st-place-medal";
-import fireIcon from "@iconify/icons-fluent-emoji/fire";
-import japaneseReservedButton from "@iconify/icons-fluent-emoji/japanese-reserved-button";
-import orangeBook from "@iconify/icons-fluent-emoji/orange-book";
-import sportsMedal from "@iconify/icons-fluent-emoji/sports-medal";
+import { signOut, useSession } from "next-auth/react";
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { cn } from "@/lib/utils";
-import Head from "next/head";
-import { useSession } from "next-auth/react";
-import ChangeLanguage from "@/components/change-language";
-import { useCurrentLanguageStore } from "@/store";
+import React from "react";
 
 export interface MainLayoutProps {
   children: React.ReactNode;
@@ -24,17 +24,17 @@ const navigation = [
   {
     href: "/learn",
     title: "Learn",
-    icon: orangeBook,
+    icon: houseIcon,
   },
   {
     href: "/letters",
     title: "Letters",
-    icon: japaneseReservedButton,
+    icon: japaneseApplicationButton,
   },
   {
     href: "/leaderboards",
     title: "Leaderboards",
-    icon: icon1stPlaceMedal,
+    icon: sportsMedal,
   },
 ];
 
@@ -114,7 +114,7 @@ export default function MainLayout({ children, title }: MainLayoutProps) {
             </div>
           </div>
         </main>
-        <footer className="fixed bottom-0 flex h-14 w-full items-center bg-background p-2 sm:left-0 sm:h-screen sm:w-72 sm:items-start sm:border-r-2 sm:p-4">
+        <footer className="fixed bottom-0 flex h-14 w-full items-center bg-background p-2 sm:left-0 sm:h-screen sm:w-72 sm:flex-col sm:items-start sm:border-r-2 sm:p-4">
           <ul className="flex w-full justify-around gap-2 sm:flex-col">
             <div className="sm: mb-6 ml-4 mt-3.5 hidden text-3xl font-extrabold uppercase tracking-wider text-emerald-600 sm:block">
               Lexica
@@ -156,6 +156,24 @@ export default function MainLayout({ children, title }: MainLayoutProps) {
               </li>
             </Link>
           </ul>
+          <div className="mb-2 ml-2 flex w-full flex-1 items-end sm:m-0">
+            <li
+              className={cn(
+                "flex w-full items-center gap-3 rounded-lg border-2 border-transparent p-1 hover:bg-gray-200 sm:rounded-xl sm:p-2 sm:px-3",
+              )}
+              role="button"
+              onClick={() => signOut()}
+            >
+              <Icon icon={brokenHeart} className="h-7 w-7" />
+              <span
+                className={cn(
+                  "hidden text-sm font-bold uppercase text-gray-600 sm:inline-block",
+                )}
+              >
+                Logout
+              </span>
+            </li>
+          </div>
         </footer>
       </div>
     </>
