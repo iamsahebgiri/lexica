@@ -5,7 +5,7 @@ import globeShowingAsiaAustralia from "@iconify/icons-fluent-emoji/globe-showing
 import { api } from "@/utils/api";
 import { useSession } from "next-auth/react";
 
-export default function LeaderboardPage() {
+function LeaderboardPage() {
   const { data: session } = useSession();
   const { data: users, isLoading, error } = api.user.getLeaderboard.useQuery();
 
@@ -31,7 +31,7 @@ export default function LeaderboardPage() {
           {users.map((user, index) => (
             <div key={user.id} className="flex items-center gap-4 p-4">
               {/* @ts-ignore */}
-              <h1 className="font-semibold mr-4">{index + 1}</h1>
+              <h1 className="mr-4 font-semibold">{index + 1}</h1>
               <img
                 src={user.image ?? undefined}
                 className="h-8 w-8 rounded-full"
@@ -49,3 +49,6 @@ export default function LeaderboardPage() {
   );
 }
 
+LeaderboardPage.auth = true;
+
+export default LeaderboardPage;

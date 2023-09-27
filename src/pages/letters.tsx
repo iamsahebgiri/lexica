@@ -53,7 +53,7 @@ const hindiLetters = [
   { hindi: "ह", english: "ha" },
 ];
 
-export default function LettersPage() {
+function LettersPage() {
   const { speak } = useTextToSpeech();
   return (
     <MainLayout>
@@ -79,3 +79,7 @@ export default function LettersPage() {
     </MainLayout>
   );
 }
+
+LettersPage.auth = true;
+
+export default LettersPage;
